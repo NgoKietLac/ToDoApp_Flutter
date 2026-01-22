@@ -1,3 +1,6 @@
+import 'package:app_todo_application/MainScreen/Incomplete_widget.dart';
+import 'package:app_todo_application/MainScreen/avatar_stack.dart';
+import 'package:app_todo_application/MainScreen/complete_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,46 +70,116 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
               SizedBox(height: 15),
-              Text(
-                "Group tasks",
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.only(left: 0),
+                child: Text(
+                  "Group tasks",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               CarouselSlider(
                 items: [
                   //item 1
                   Container(
-                    margin: EdgeInsets.only(top: 16, left: 23),
-                    width: 218,
-                    height: 106,
+                    margin: EdgeInsets.only(top: 16, right: 15, left: 0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Design Meeting",
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 16, left: 23),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Design Meeting",
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
+                          Text(
+                            "Tomorrow | 10:30pm",
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(height: 9),
+                          AvatarStack(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  //item 2
+                  Container(
+                    margin: EdgeInsets.only(top: 16, right: 15, left: 0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 16, left: 23),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Projects Meeting",
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            "Thursday | 10:30pm",
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(height: 9),
+                          AvatarStack(),
+                        ],
+                      ),
                     ),
                   ),
                 ],
                 options: CarouselOptions(
-                  viewportFraction: 1,
-                  autoPlay: false,
                   height: 160,
-                  autoPlayInterval: Duration(seconds: 5),
-                  enlargeFactor: 0.5,
+                  viewportFraction: 0.6,
+                  padEnds: false,
+                  initialPage: 0,
+                  enableInfiniteScroll: false,
+                  scrollDirection: Axis.horizontal,
+                  disableCenter: true,
                 ),
               ),
+              SizedBox(height: 19),
+              Text(
+                "Incomplete Tasks",
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 17),
+              IncompleteWidget(),
+              SizedBox(height: 12),
+              Text(
+                "Completed Tasks",
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 16),
+              CompleteWidget(),
             ],
           ),
         ),
