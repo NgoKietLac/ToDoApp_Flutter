@@ -1,3 +1,4 @@
+import 'package:app_todo_application/ListPageScreen/list_page_screen.dart';
 import 'package:app_todo_application/MainScreen/main_Screen.dart';
 import 'package:app_todo_application/SplashScreen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AppToDo',
-      home: SplashScreen(),
+      home: ListPageScreen(),
       // home: ListPage(),
     );
   }
