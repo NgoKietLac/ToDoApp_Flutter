@@ -1,3 +1,4 @@
+import 'package:app_todo_application/SignInScreen/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -154,7 +155,11 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
                 padding: const EdgeInsets.only(bottom: 50),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Xử lý đăng xuất
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInScreen()),
+                      (route) => false,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
