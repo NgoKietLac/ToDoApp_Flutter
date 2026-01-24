@@ -1,4 +1,8 @@
+import 'package:app_todo_application/DetailPageScreen/detail_page_screen.dart';
 import 'package:app_todo_application/ListPageScreen/show_form_bottom_sheet.dart';
+import 'package:app_todo_application/MainScreen/main_Screen.dart';
+import 'package:app_todo_application/ManagerTime/manager_time_screen.dart';
+import 'package:app_todo_application/SettingPageScreen/setting_page_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,8 +19,8 @@ class _ListPageScreenState extends State<ListPageScreen> {
     return Scaffold(
       extendBody: true,
       body: Container(
-        constraints: const BoxConstraints.expand(),
-        decoration: const BoxDecoration(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: AlignmentGeometry.topCenter,
             end: AlignmentGeometry.bottomCenter,
@@ -34,7 +38,7 @@ class _ListPageScreenState extends State<ListPageScreen> {
                     child: Container(
                       height: 42,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A2F4B),
+                        color: Color(0xFF1A2F4B),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextField(
@@ -50,9 +54,7 @@ class _ListPageScreenState extends State<ListPageScreen> {
                             color: Colors.grey,
                           ),
                           border: InputBorder.none, // Xóa gạch chân mặc định
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
+                          contentPadding: EdgeInsets.symmetric(vertical: 10),
                         ),
                       ),
                     ),
@@ -60,15 +62,15 @@ class _ListPageScreenState extends State<ListPageScreen> {
                   SizedBox(width: 8),
                   Container(
                     height: 42,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1A2F4B),
+                      color: Color(0xFF1A2F4B),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.sort, color: Colors.grey, size: 20),
-                        const SizedBox(width: 8),
+                        Icon(Icons.sort, color: Colors.grey, size: 20),
+                        SizedBox(width: 8),
                         Text(
                           "Sort By:",
                           style: GoogleFonts.poppins(
@@ -76,10 +78,7 @@ class _ListPageScreenState extends State<ListPageScreen> {
                             fontSize: 14,
                           ),
                         ),
-                        const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Colors.grey,
-                        ),
+                        Icon(Icons.keyboard_arrow_down, color: Colors.grey),
                       ],
                     ),
                   ),
@@ -105,47 +104,57 @@ class _ListPageScreenState extends State<ListPageScreen> {
                   shrinkWrap: true,
                   itemCount: 4,
                   itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 15, right: 18),
-                      padding: const EdgeInsets.only(
-                        top: 12,
-                        right: 25,
-                        bottom: 10,
-                        left: 25,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Client meeting",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "Tomorrow | 10:30pm",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailPageScreen(),
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 24,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF0EA5E9),
-                          ),
-                        ],
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 15, right: 18),
+                        padding: EdgeInsets.only(
+                          top: 12,
+                          right: 25,
+                          bottom: 10,
+                          left: 25,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Client meeting",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  "Tomorrow | 10:30pm",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 24,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF0EA5E9),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -156,6 +165,27 @@ class _ListPageScreenState extends State<ListPageScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MainScreen()),
+            );
+          }
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ManagerTimeScreen()),
+            );
+          }
+          if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingPageScreen()),
+            );
+          }
+        },
         backgroundColor: Colors.transparent,
         elevation: 0,
         type: BottomNavigationBarType.fixed,
@@ -166,12 +196,12 @@ class _ListPageScreenState extends State<ListPageScreen> {
         items: [
           // Tab Home
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home_outlined, size: 30),
+            icon: Icon(Icons.home_outlined, size: 30),
             activeIcon: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.home, size: 30),
-                const SizedBox(height: 4),
+                Icon(Icons.home, size: 30),
+                SizedBox(height: 4),
                 Container(
                   width: 15,
                   height: 2,
@@ -185,17 +215,17 @@ class _ListPageScreenState extends State<ListPageScreen> {
             label: 'Home',
           ),
           // Tab List
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.list, size: 30),
             label: 'Tasks',
           ),
           // Tab Calendar
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_outlined, size: 28),
             label: 'Calendar',
           ),
           // Tab Settings
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined, size: 30),
             label: 'Settings',
           ),

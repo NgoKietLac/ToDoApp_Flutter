@@ -1,6 +1,9 @@
+import 'package:app_todo_application/ListPageScreen/list_page_screen.dart';
 import 'package:app_todo_application/MainScreen/Incomplete_widget.dart';
 import 'package:app_todo_application/MainScreen/avatar_stack.dart';
 import 'package:app_todo_application/MainScreen/complete_widget.dart';
+import 'package:app_todo_application/ManagerTime/manager_time_screen.dart';
+import 'package:app_todo_application/SettingPageScreen/setting_page_Screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -186,6 +189,27 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ListPageScreen()),
+            );
+          }
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ManagerTimeScreen()),
+            );
+          }
+          if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingPageScreen()),
+            );
+          }
+        },
         backgroundColor: Colors.transparent,
         elevation: 0,
         type: BottomNavigationBarType.fixed,

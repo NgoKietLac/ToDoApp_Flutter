@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void showAddTaskSheet(BuildContext context, {onSave}) {
   showModalBottomSheet(
@@ -42,7 +43,7 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 16),
+                padding: EdgeInsets.only(left: 16),
                 child: TextField(
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -69,7 +70,7 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 16, top: 14),
+                    padding: EdgeInsets.only(left: 16, top: 14),
                     child: Icon(Icons.menu, color: Colors.white),
                   ),
                   Expanded(
@@ -94,10 +95,10 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFF05243E),
+                      color: Color(0xFF05243E),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const TextField(
+                    child: TextField(
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         hintText: "Date",
@@ -113,12 +114,12 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 15),
+                SizedBox(width: 15),
                 // Ô Time
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFF05243E),
+                      color: Color(0xFF05243E),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const TextField(
@@ -149,21 +150,25 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context),
                       style: OutlinedButton.styleFrom(
-                        side: const BorderSide(
+                        side: BorderSide(
                           color: Color(0xFF63D9F3),
                         ), // Viền xanh cyan
-                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        padding: EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         "cancel",
-                        style: TextStyle(color: Colors.black),
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF05243E),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 15),
+                  SizedBox(width: 15),
                   // Nút Create
                   Expanded(
                     child: ElevatedButton(
@@ -171,17 +176,19 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                         // Xử lý tạo task ở đây
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                          0xFF63D9F3,
-                        ), // Nền xanh cyan
-                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        backgroundColor: Color(0xFF63D9F3), // Nền xanh cyan
+                        padding: EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         "create",
-                        style: TextStyle(color: Colors.white),
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFFFFFFFF),
+                        ),
                       ),
                     ),
                   ),
