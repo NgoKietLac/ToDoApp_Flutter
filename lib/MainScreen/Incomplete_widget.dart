@@ -1,4 +1,5 @@
 import 'package:app_todo_application/DetailPageScreen/detail_page_screen.dart';
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -40,16 +41,16 @@ class IncompleteWidget extends StatelessWidget {
                     children: [
                       Text(
                         "Client meeting",
-                        style: GoogleFonts.poppins(
+                        style: AppStyles.bodyStyle.copyWith(
                           fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
                         ),
                       ),
                       Text(
                         "Tomorrow | 10:30pm",
-                        style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
+                        style: AppStyles.bodyStyle.copyWith(
+                          fontSize: 14,
+                          color: Colors.black,
                         ),
                       ),
                     ],

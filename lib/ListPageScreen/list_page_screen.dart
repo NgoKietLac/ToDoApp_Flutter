@@ -3,6 +3,7 @@ import 'package:app_todo_application/ListPageScreen/show_form_bottom_sheet.dart'
 import 'package:app_todo_application/MainScreen/main_Screen.dart';
 import 'package:app_todo_application/ManagerTime/manager_time_screen.dart';
 import 'package:app_todo_application/SettingPageScreen/setting_page_Screen.dart';
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -45,9 +46,9 @@ class _ListPageScreenState extends State<ListPageScreen> {
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: "Search by task title",
-                          hintStyle: GoogleFonts.poppins(
-                            color: Colors.grey,
+                          hintStyle: AppStyles.bodyStyle.copyWith(
                             fontSize: 14,
+                            color: Colors.grey,
                           ),
                           prefixIcon: const Icon(
                             Icons.search,
@@ -73,9 +74,9 @@ class _ListPageScreenState extends State<ListPageScreen> {
                         SizedBox(width: 8),
                         Text(
                           "Sort By:",
-                          style: GoogleFonts.poppins(
-                            color: Colors.grey,
+                          style: AppStyles.bodyStyle.copyWith(
                             fontSize: 14,
+                            color: Colors.grey,
                           ),
                         ),
                         Icon(Icons.keyboard_arrow_down, color: Colors.grey),
@@ -133,16 +134,16 @@ class _ListPageScreenState extends State<ListPageScreen> {
                               children: [
                                 Text(
                                   "Client meeting",
-                                  style: GoogleFonts.poppins(
+                                  style: AppStyles.bodyStyle.copyWith(
                                     fontSize: 14,
-                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 Text(
                                   "Tomorrow | 10:30pm",
-                                  style: GoogleFonts.poppins(
+                                  style: AppStyles.headingStyle.copyWith(
                                     fontSize: 10,
-                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ],

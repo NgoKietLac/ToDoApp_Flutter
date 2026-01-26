@@ -3,6 +3,7 @@ import 'package:app_todo_application/SignInScreen/sign_in_screen.dart';
 import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -38,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         TextSpan(
                           text: "Welcome Back to ",
-                          style: AppStyles.bodyStyle,
+                          style: AppStyles.bodyStyle.copyWith(fontSize: 25),
                         ),
                         TextSpan(text: "DO IT", style: AppStyles.logoStyle),
                       ],
@@ -146,7 +147,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.circular(10), // 6. Bo tròn góc
                     ),
                   ),
-                  child: Text("sign up", style: AppStyles.bodyStyle),
+                  child: Text(
+                    "sign up",
+                    style: AppStyles.bodyStyle.copyWith(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -161,11 +168,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         TextSpan(
                           text: "Already have an account? ",
-                          style: AppStyles.bodyStyle,
+                          style: AppStyles.bodyStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
                         ),
                         TextSpan(
                           text: "sign in",
-                          style: AppStyles.bodyStyle,
+                          style: AppStyles.bodyStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF63D9F3),
+                          ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pushReplacement(
@@ -188,11 +203,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Sign In with: ", style: AppStyles.bodyStyle),
+                  Text(
+                    "Sign In with: ",
+                    style: AppStyles.bodyStyle.copyWith(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                   SizedBox(width: 10),
-                  Image.asset("assets/icon/ios.png"),
+                  SizedBox(
+                    height: 55,
+                    width: 55,
+                    child: Image.asset("assets/icon/ios.png"),
+                  ),
                   SizedBox(width: 10),
-                  Image.asset("assets/icon/icon_gg.png"),
+                  SizedBox(
+                    height: 55,
+                    width: 55,
+                    child: Image.asset("assets/icon/icon_gg.png"),
+                  ),
                 ],
               ),
             ),

@@ -1,4 +1,4 @@
 class AppFonts {
-  static const String mainFont = 'Poppins';
+  static const String mainFont = 'Popins';
   static const String logoFont = 'Daruma';
 }

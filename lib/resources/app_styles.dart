@@ -15,14 +15,14 @@ class AppStyles {
     fontFamily: AppFonts.mainFont,
     fontSize: 20,
     fontWeight: FontWeight.w500,
-    color: Color.fromARGB(255, 0, 0, 0),
+    color: Colors.white,
   );
 
   // Kiểu chữ văn bản thông thường
   static const TextStyle bodyStyle = TextStyle(
     fontFamily: AppFonts.mainFont,
     fontSize: 18,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     color: Colors.white,
   );
 }

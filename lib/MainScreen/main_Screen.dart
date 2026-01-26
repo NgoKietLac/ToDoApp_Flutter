@@ -4,6 +4,7 @@ import 'package:app_todo_application/MainScreen/avatar_stack.dart';
 import 'package:app_todo_application/MainScreen/complete_widget.dart';
 import 'package:app_todo_application/ManagerTime/manager_time_screen.dart';
 import 'package:app_todo_application/SettingPageScreen/setting_page_Screen.dart';
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,21 +48,10 @@ class _MainScreenState extends State<MainScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "oussama chahidi",
-                              style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            ),
+                            Text("oussama chahidi", style: AppStyles.bodyStyle),
                             Text(
                               "oussamachahidi@gmail.com",
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white.withValues(alpha: 0.5),
-                              ),
+                              style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                             ),
                           ],
                         ),
@@ -79,11 +69,7 @@ class _MainScreenState extends State<MainScreen> {
                   padding: const EdgeInsets.only(left: 0),
                   child: Text(
                     "Group tasks",
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                    ),
+                    style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                   ),
                 ),
                 CarouselSlider(
@@ -102,16 +88,16 @@ class _MainScreenState extends State<MainScreen> {
                           children: [
                             Text(
                               "Design Meeting",
-                              style: GoogleFonts.poppins(
+                              style: AppStyles.bodyStyle.copyWith(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
                               ),
                             ),
                             Text(
                               "Tomorrow | 10:30pm",
-                              style: GoogleFonts.poppins(
+                              style: AppStyles.bodyStyle.copyWith(
                                 fontSize: 10,
-                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
                             SizedBox(height: 9),
@@ -134,16 +120,16 @@ class _MainScreenState extends State<MainScreen> {
                           children: [
                             Text(
                               "Projects Meeting",
-                              style: GoogleFonts.poppins(
+                              style: AppStyles.bodyStyle.copyWith(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
                               ),
                             ),
                             Text(
                               "Thursday | 10:30pm",
-                              style: GoogleFonts.poppins(
+                              style: AppStyles.bodyStyle.copyWith(
                                 fontSize: 10,
-                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
                             SizedBox(height: 9),
@@ -166,22 +152,14 @@ class _MainScreenState extends State<MainScreen> {
                 SizedBox(height: 19),
                 Text(
                   "Incomplete Tasks",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+                  style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                 ),
                 SizedBox(height: 17),
                 IncompleteWidget(),
                 SizedBox(height: 12),
                 Text(
                   "Completed Tasks",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+                  style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                 ),
                 SizedBox(height: 16),
                 CompleteWidget(),

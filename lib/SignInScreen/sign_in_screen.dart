@@ -1,4 +1,5 @@
 import 'package:app_todo_application/SignUpScreen/sign_up_screen.dart';
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:app_todo_application/verification/verification_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -39,20 +40,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       children: [
                         TextSpan(
                           text: "Welcome Back to ",
-                          style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: AppStyles.headingStyle.copyWith(fontSize: 25),
                         ),
-                        TextSpan(
-                          text: "DO IT",
-                          style: GoogleFonts.darumadropOne(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+                        TextSpan(text: "DO IT", style: AppStyles.logoStyle),
                       ],
                     ),
                   ),
@@ -65,11 +55,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   Text(
                     "Have an other productive day !",
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: AppStyles.bodyStyle,
                   ),
                 ],
               ),
@@ -129,10 +115,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     onPressed: () {},
                     child: Text(
                       "forget password",
-                      style: GoogleFonts.poppins(
+                      style: AppStyles.bodyStyle.copyWith(
                         decoration: TextDecoration.underline,
-                        color: Color(0xFFFFFFFF).withValues(alpha: 0.8),
                         fontSize: 14,
+                        color: Color(0xFFFFFFFF).withValues(alpha: 0.8),
                       ),
                     ),
                   ),
@@ -160,14 +146,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       borderRadius: BorderRadius.circular(10), // 6. Bo tròn góc
                     ),
                   ),
-                  child: Text(
-                    "sign in",
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: Text("sign in", style: AppStyles.bodyStyle),
                 ),
               ),
             ),
@@ -182,17 +161,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       children: [
                         TextSpan(
                           text: "Don’t have an account? ",
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
+                          style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                         ),
                         TextSpan(
                           text: "sign up",
-                          style: GoogleFonts.poppins(
+                          style: AppStyles.bodyStyle.copyWith(
                             fontSize: 14,
-                            fontWeight: FontWeight.w500,
                             color: Color(0xFF63D9F3),
                           ),
                           recognizer: TapGestureRecognizer()
@@ -219,16 +193,20 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   Text(
                     "Sign In with: ",
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                    ),
+                    style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                   ),
                   SizedBox(width: 10),
-                  Image.asset("assets/icon/ios.png"),
+                  SizedBox(
+                    height: 55,
+                    width: 55,
+                    child: Image.asset("assets/icon/ios.png"),
+                  ),
                   SizedBox(width: 10),
-                  Image.asset("assets/icon/icon_gg.png"),
+                  SizedBox(
+                    height: 55,
+                    width: 55,
+                    child: Image.asset("assets/icon/icon_gg.png"),
+                  ),
                 ],
               ),
             ),

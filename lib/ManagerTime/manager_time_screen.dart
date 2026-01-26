@@ -1,3 +1,4 @@
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -33,17 +34,13 @@ class _ManagerTimeScreenState extends State<ManagerTimeScreen> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () {},
                     ),
                     Expanded(
                       child: Center(
                         child: Text(
                           "Manage Your Time",
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
+                          style: AppStyles.headingStyle,
                         ),
                       ),
                     ),

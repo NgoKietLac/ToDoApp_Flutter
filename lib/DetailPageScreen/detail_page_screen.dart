@@ -1,3 +1,4 @@
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -39,49 +40,30 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                     ),
                     Text(
                       "Task Details",
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
+                      style: AppStyles.bodyStyle.copyWith(fontSize: 16),
                     ),
                   ],
                 ),
                 SizedBox(height: 76),
                 Row(
                   children: [
-                    Text(
-                      "team meeting",
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(width: 15),
+                    Text("team meeting", style: AppStyles.bodyStyle),
+                    SizedBox(width: 10),
                     Icon(Icons.edit_note, color: Colors.white),
                   ],
                 ),
                 SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(Icons.calendar_month, size: 11, color: Colors.white),
+                    Icon(Icons.calendar_month, size: 12, color: Colors.white),
                     SizedBox(width: 5),
                     Text(
                       "Today |",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
-                      ),
+                      style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                     ),
                     Text(
                       " 20:00 pm",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
-                      ),
+                      style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                     ),
                   ],
                 ),
@@ -90,12 +72,7 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                 SizedBox(height: 25),
                 Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                    height: 1.5,
-                  ),
+                  style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                 ),
                 SizedBox(height: 58),
                 // các nút
@@ -127,11 +104,7 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                           SizedBox(height: 5),
                           Text(
                             "Done",
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
+                            style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                           ),
                         ],
                       ),
@@ -161,11 +134,7 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                           SizedBox(height: 5),
                           Text(
                             "Delete",
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
+                            style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                           ),
                         ],
                       ),
@@ -195,11 +164,7 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                           SizedBox(height: 5),
                           Text(
                             "Pin",
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
+                            style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                           ),
                         ],
                       ),

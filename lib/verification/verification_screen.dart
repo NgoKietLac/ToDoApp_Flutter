@@ -1,6 +1,7 @@
 import 'package:app_todo_application/MainScreen/main_Screen.dart';
 import 'package:app_todo_application/MainScreen/main_wrapper.dart';
 import 'package:app_todo_application/ShowSuccesDialog/show_verification_dialog.dart';
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class VerificationScreen extends StatelessWidget {
@@ -23,11 +24,7 @@ class VerificationScreen extends StatelessWidget {
             SizedBox(height: 86),
             Text(
               "Verify account",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
+              style: AppStyles.headingStyle.copyWith(fontSize: 30),
             ),
             SizedBox(height: 48),
             Container(
@@ -52,21 +49,12 @@ class VerificationScreen extends StatelessWidget {
                     SizedBox(height: 21),
                     Text(
                       "DO IT",
-                      style: TextStyle(
-                        fontFamily: 'Daruma',
-                        fontSize: 36,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                      ),
+                      style: AppStyles.logoStyle.copyWith(fontSize: 30),
                     ),
                     SizedBox(height: 50),
                     Text(
                       "By verifying your account, you data will be secured and be default you are accepting our terms and policies",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
+                      style: AppStyles.bodyStyle.copyWith(fontSize: 16),
                     ),
                     SizedBox(height: 65),
                     //nhập mã xác thực
@@ -129,11 +117,7 @@ class VerificationScreen extends StatelessWidget {
                           ),
                           child: Text(
                             "Verify",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
+                            style: AppStyles.bodyStyle.copyWith(fontSize: 18),
                           ),
                         ),
                       ),

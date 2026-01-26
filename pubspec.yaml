@@ -80,7 +80,7 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/font/Poppins-Regular.ttf
-          weight: 400
+          weight: 500
         - asset: assets/font/Poppins-Bold.ttf
           weight: 700
     - family: Daruma

@@ -1,4 +1,5 @@
 import 'package:app_todo_application/SignInScreen/sign_in_screen.dart';
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -33,17 +34,13 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () {},
                     ),
                     Expanded(
                       child: Center(
                         child: Text(
                           "Settings",
-                          style: GoogleFonts.poppins(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
+                          style: AppStyles.headingStyle.copyWith(fontSize: 25),
                         ),
                       ),
                     ),
@@ -59,13 +56,7 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
                   children: [
                     Icon(Icons.person, color: Colors.white, size: 28),
                     SizedBox(width: 15),
-                    Text(
-                      "Profile",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
+                    Text("Profile", style: AppStyles.bodyStyle),
                     Spacer(),
                     Icon(
                       Icons.arrow_forward_ios,
@@ -87,13 +78,7 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
                       size: 28,
                     ),
                     SizedBox(width: 15),
-                    Text(
-                      "Conversations",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
+                    Text("Conversations", style: AppStyles.bodyStyle),
                     Spacer(),
                     Icon(
                       Icons.arrow_forward_ios,
@@ -110,13 +95,7 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
                   children: [
                     Icon(Icons.lightbulb, color: Colors.white, size: 28),
                     SizedBox(width: 15),
-                    Text(
-                      "Projects",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
+                    Text("Projects", style: AppStyles.bodyStyle),
                     Spacer(),
                     Icon(
                       Icons.arrow_forward_ios,
@@ -133,13 +112,7 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
                   children: [
                     Icon(Icons.find_in_page, color: Colors.white, size: 28),
                     SizedBox(width: 15),
-                    Text(
-                      "Terms and Policies",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
+                    Text("Terms and Policies", style: AppStyles.bodyStyle),
                     Spacer(),
                     Icon(
                       Icons.arrow_forward_ios,
@@ -180,10 +153,7 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
                       const SizedBox(width: 10),
                       Text(
                         "Logout",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        style: AppStyles.bodyStyle.copyWith(color: Colors.red),
                       ),
                     ],
                   ),

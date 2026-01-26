@@ -46,7 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         "Plan your tasks to do, that way you’ll stay organized and you won’t skip any",
                         textAlign: TextAlign.center,
-                        style: AppStyles.bodyStyle,
+                        style: AppStyles.headingStyle,
                       ),
                     ],
                   ),
@@ -66,7 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         "Make a full schedule for the whole week and stay organized and productive all days",
                         textAlign: TextAlign.center,
-                        style: AppStyles.bodyStyle,
+                        style: AppStyles.headingStyle,
                       ),
                     ],
                   ),
@@ -86,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         "create a team task, invite people and manage your work together",
                         textAlign: TextAlign.center,
-                        style: AppStyles.bodyStyle,
+                        style: AppStyles.headingStyle,
                       ),
                     ],
                   ),
@@ -106,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         "You informations are secure with us",
                         textAlign: TextAlign.center,
-                        style: AppStyles.bodyStyle,
+                        style: AppStyles.headingStyle,
                       ),
                     ],
                   ),
