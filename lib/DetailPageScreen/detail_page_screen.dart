@@ -211,52 +211,6 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFF76D5EA).withValues(alpha: 25),
-        unselectedItemColor: Colors.white,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          // Tab Home
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, size: 30),
-            activeIcon: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.home, size: 30),
-                SizedBox(height: 4),
-                Container(
-                  width: 15,
-                  height: 2,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ],
-            ),
-            label: 'Home',
-          ),
-          // Tab List
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list, size: 30),
-            label: 'Tasks',
-          ),
-          // Tab Calendar
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined, size: 28),
-            label: 'Calendar',
-          ),
-          // Tab Settings
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined, size: 30),
-            label: 'Settings',
-          ),
-        ],
-      ),
     );
   }
 }

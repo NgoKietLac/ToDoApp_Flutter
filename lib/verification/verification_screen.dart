@@ -1,7 +1,7 @@
 import 'package:app_todo_application/MainScreen/main_Screen.dart';
+import 'package:app_todo_application/MainScreen/main_wrapper.dart';
 import 'package:app_todo_application/ShowSuccesDialog/show_verification_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class VerificationScreen extends StatelessWidget {
   const VerificationScreen({super.key});
@@ -23,7 +23,7 @@ class VerificationScreen extends StatelessWidget {
             SizedBox(height: 86),
             Text(
               "Verify account",
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
@@ -52,7 +52,8 @@ class VerificationScreen extends StatelessWidget {
                     SizedBox(height: 21),
                     Text(
                       "DO IT",
-                      style: GoogleFonts.darumadropOne(
+                      style: TextStyle(
+                        fontFamily: 'Daruma',
                         fontSize: 36,
                         fontWeight: FontWeight.w400,
                         color: Colors.white,
@@ -61,7 +62,7 @@ class VerificationScreen extends StatelessWidget {
                     SizedBox(height: 50),
                     Text(
                       "By verifying your account, you data will be secured and be default you are accepting our terms and policies",
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
@@ -70,7 +71,7 @@ class VerificationScreen extends StatelessWidget {
                     SizedBox(height: 65),
                     //nhập mã xác thực
                     SizedBox(
-                      height: 52,
+                      height: 56,
                       width: 274,
                       child: Column(
                         children: [
@@ -92,7 +93,7 @@ class VerificationScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 23),
                     SizedBox(
-                      height: 52,
+                      height: 56,
                       width: 274,
                       child: SizedBox(
                         width: double.infinity,
@@ -111,7 +112,7 @@ class VerificationScreen extends StatelessWidget {
                                 Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MainScreen(),
+                                    builder: (context) => MainWrapper(),
                                   ),
                                   (route) => false,
                                 );
@@ -128,7 +129,7 @@ class VerificationScreen extends StatelessWidget {
                           ),
                           child: Text(
                             "Verify",
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,

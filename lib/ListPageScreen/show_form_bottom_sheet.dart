@@ -23,6 +23,8 @@ class ShowFormBottomSheet extends StatefulWidget {
 }
 
 class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
+  final dateController = TextEditingController();
+  final timeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -98,7 +100,45 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                       color: Color(0xFF05243E),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: TextField(
+                    child: TextFormField(
+                      readOnly: true,
+                      onTap: () async {
+                        DateTime? selectedDate = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: ColorScheme.dark(
+                                  primary: Color(
+                                    0xFF63D9F3,
+                                  ), // Màu của vòng tròn chọn ngày và tiêu đề
+                                  onPrimary: Colors
+                                      .black, // Màu chữ bên trong vòng tròn chọn
+                                  surface: Color(
+                                    0xFF05243E,
+                                  ), // Màu nền của bảng lịch
+                                  onSurface: Colors.white,
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
+                        );
+                        print('Date: $selectedDate');
+                        if (selectedDate != null) {
+                          setState(() {
+                            dateController.text =
+                                selectedDate.day.toString() +
+                                "/" +
+                                selectedDate.month.toString() +
+                                "/" +
+                                selectedDate.year.toString();
+                          });
+                        }
+                      },
+                      controller: dateController,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         hintText: "Date",
@@ -122,7 +162,43 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                       color: Color(0xFF05243E),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const TextField(
+                    child: TextFormField(
+                      readOnly: true,
+                      onTap: () async {
+                        TimeOfDay? selectedTime = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: const ColorScheme.dark(
+                                  primary: Color(
+                                    0xFF63D9F3,
+                                  ), // Màu của kim đồng hồ và số đang chọn
+                                  onPrimary:
+                                      Colors.black, // Màu chữ trên kim đồng hồ
+                                  surface: Color(
+                                    0xFF05243E,
+                                  ), // Màu nền hộp thoại
+                                  onSurface:
+                                      Colors.white, // Màu của các con số giờ
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
+                        );
+                        print('date : $selectedTime');
+                        if (selectedTime != null) {
+                          setState(() {
+                            timeController.text =
+                                selectedTime.hour.toString() +
+                                ":" +
+                                selectedTime.minute.toString();
+                          });
+                        }
+                      },
+                      controller: timeController,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         hintText: "Time",

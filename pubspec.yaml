@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^7.1.0
   carousel_slider: ^5.1.1
+  table_calendar: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,18 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/font/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/font/Poppins-Bold.ttf
+          weight: 700
+    - family: Daruma
+      fonts:
+        - asset: assets/font/DarumadropOne-Regular.ttf
+          weight: 400
+
   # fonts:
   #   - family: Schyler
   #     fonts:

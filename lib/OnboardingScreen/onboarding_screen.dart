@@ -1,4 +1,5 @@
 import 'package:app_todo_application/SignInScreen/sign_in_screen.dart';
+import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,11 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         "Plan your tasks to do, that way you’ll stay organized and you won’t skip any",
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFFFFFFFF),
-                        ),
+                        style: AppStyles.bodyStyle,
                       ),
                     ],
                   ),
@@ -69,11 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         "Make a full schedule for the whole week and stay organized and productive all days",
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFFFFFFFF),
-                        ),
+                        style: AppStyles.bodyStyle,
                       ),
                     ],
                   ),
@@ -93,11 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         "create a team task, invite people and manage your work together",
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFFFFFFFF),
-                        ),
+                        style: AppStyles.bodyStyle,
                       ),
                     ],
                   ),
@@ -117,11 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         "You informations are secure with us",
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFFFFFFFF),
-                        ),
+                        style: AppStyles.bodyStyle,
                       ),
                     ],
                   ),

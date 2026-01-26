@@ -1,8 +1,6 @@
-import 'package:app_todo_application/ListPageScreen/list_page_screen.dart';
-import 'package:app_todo_application/MainScreen/main_Screen.dart';
-import 'package:app_todo_application/SettingPageScreen/setting_page_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class ManagerTimeScreen extends StatefulWidget {
   const ManagerTimeScreen({super.key});
@@ -12,6 +10,7 @@ class ManagerTimeScreen extends StatefulWidget {
 }
 
 class _ManagerTimeScreenState extends State<ManagerTimeScreen> {
+  DateTime today = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,84 +60,43 @@ class _ManagerTimeScreenState extends State<ManagerTimeScreen> {
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Colors.white12),
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.arrow_back_ios,
-                          color: Color(0xFF63D9F3),
-                          size: 16,
-                        ),
-                        const SizedBox(width: 20),
-                        Text(
-                          "January",
-                          style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          color: Color(0xFF63D9F3),
-                          size: 16,
-                        ),
-                      ],
+                child: TableCalendar(
+                  rowHeight: 50,
+                  headerStyle: HeaderStyle(
+                    formatButtonVisible: false,
+                    titleCentered: true,
+                    titleTextStyle: TextStyle(color: Colors.white),
+                    leftChevronIcon: const Icon(
+                      Icons.chevron_left,
+                      color: Colors.white,
                     ),
-                    const SizedBox(height: 15),
-                    // Hàng tên các thứ trong tuần
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
-                          .map(
-                            (day) => Text(
-                              day,
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 12,
-                              ),
-                            ),
-                          )
-                          .toList(),
+                    rightChevronIcon: const Icon(
+                      Icons.chevron_right,
+                      color: Colors.white,
                     ),
-                    const SizedBox(height: 10),
-                    // Lưới các ngày (GridView)
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 7,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                          ),
-                      itemCount: 31,
-                      itemBuilder: (context, index) {
-                        int day = index + 1;
-                        bool isSelected = day == 20;
-                        return Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? const Color(0xFF63D9F3)
-                                : Colors.transparent,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Text(
-                            "$day",
-                            style: TextStyle(
-                              color: isSelected ? Colors.black : Colors.white,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                            ),
-                          ),
-                        );
-                      },
+                  ),
+                  daysOfWeekStyle: DaysOfWeekStyle(
+                    weekdayStyle: TextStyle(color: Colors.white),
+                    weekendStyle: TextStyle(color: Colors.white),
+                  ),
+                  calendarStyle: CalendarStyle(
+                    defaultTextStyle: TextStyle(color: Colors.white),
+                    weekendTextStyle: TextStyle(color: Color(0xFF63D9F3)),
+                    todayDecoration: BoxDecoration(
+                      color: Color(0xFF17A1FA),
+                      shape: BoxShape.circle,
                     ),
-                  ],
+                    selectedDecoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFF17A1FA).withValues(alpha: 0.2),
+                    ),
+                  ),
+                  selectedDayPredicate: (day) => isSameDay(day, today),
+
+                  focusedDay: today,
+                  firstDay: DateTime.utc(2010, 10, 16),
+                  lastDay: DateTime.utc(2030, 3, 14),
+                  onDaySelected: _onDayselected,
                 ),
               ),
               const SizedBox(height: 30),
@@ -212,73 +170,12 @@ class _ManagerTimeScreenState extends State<ManagerTimeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MainScreen()),
-            );
-          }
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ListPageScreen()),
-            );
-          }
-          if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SettingPageScreen()),
-            );
-          }
-        },
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFF76D5EA).withValues(alpha: 25),
-        unselectedItemColor: Colors.white,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          // Tab Home
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, size: 30),
-            activeIcon: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.home, size: 30),
-                SizedBox(height: 4),
-                Container(
-                  width: 15,
-                  height: 2,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ],
-            ),
-            label: 'Home',
-          ),
-          // Tab List
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list, size: 30),
-            label: 'Tasks',
-          ),
-          // Tab Calendar
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined, size: 28),
-            label: 'Calendar',
-          ),
-          // Tab Settings
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined, size: 30),
-            label: 'Settings',
-          ),
-        ],
-      ),
     );
+  }
+
+  void _onDayselected(DateTime day, DateTime focusedDay) {
+    setState(() {
+      today = day;
+    });
   }
 }
