@@ -1,10 +1,15 @@
 import 'package:app_todo_application/DetailPageScreen/detail_page_screen.dart';
+import 'package:app_todo_application/FirestoreService/firestore_service.dart';
 import 'package:app_todo_application/ListPageScreen/show_form_bottom_sheet.dart';
 import 'package:app_todo_application/MainScreen/main_Screen.dart';
 import 'package:app_todo_application/ManagerTime/manager_time_screen.dart';
 import 'package:app_todo_application/SettingPageScreen/setting_page_Screen.dart';
+import 'package:app_todo_application/cubit/task_cubit.dart';
+import 'package:app_todo_application/cubit/task_state.dart';
+import 'package:app_todo_application/model/task_model.dart';
 import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ListPageScreen extends StatefulWidget {
@@ -15,6 +20,21 @@ class ListPageScreen extends StatefulWidget {
 }
 
 class _ListPageScreenState extends State<ListPageScreen> {
+  FirestoreService _firestoreService = FirestoreService();
+  TaskCubit? _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = TaskCubit()..loadTasks();
+  }
+
+  @override
+  void dispose() {
+    _cubit?.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,10 +70,7 @@ class _ListPageScreenState extends State<ListPageScreen> {
                             fontSize: 14,
                             color: Colors.grey,
                           ),
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            color: Colors.grey,
-                          ),
+                          prefixIcon: Icon(Icons.search, color: Colors.grey),
                           border: InputBorder.none, // Xóa gạch chân mặc định
                           contentPadding: EdgeInsets.symmetric(vertical: 10),
                         ),
@@ -99,66 +116,106 @@ class _ListPageScreenState extends State<ListPageScreen> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 327,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailPageScreen(),
+              SizedBox(height: 20),
+              Container(
+                height: 555,
+                child: Expanded(
+                  child: BlocBuilder<TaskCubit, TaskState>(
+                    bloc: _cubit,
+                    builder: (context, state) {
+                      if (state is TaskLoading) {
+                        return Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        );
+                      }
+                      if (state is TaskError) {
+                        return Center(
+                          child: Text(
+                            state.message,
+                            style: TextStyle(color: Colors.red),
                           ),
                         );
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 15, right: 18),
-                        padding: EdgeInsets.only(
-                          top: 12,
-                          right: 25,
-                          bottom: 10,
-                          left: 25,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Client meeting",
-                                  style: AppStyles.bodyStyle.copyWith(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Text(
-                                  "Tomorrow | 10:30pm",
-                                  style: AppStyles.headingStyle.copyWith(
-                                    fontSize: 10,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
+                      }
+                      if (state is TaskLoaded) {
+                        final tasks = state.tasks;
+                        if (tasks.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "Chưa có dữ liệu",
+                              style: AppStyles.bodyStyle,
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 24,
-                              fontWeight: FontWeight.w900,
-                              color: Color(0xFF0EA5E9),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                          );
+                        }
+                        return ListView.builder(
+                          itemCount: tasks.length,
+                          itemBuilder: (context, index) {
+                            final data =
+                                tasks[index].data() as Map<String, dynamic>;
+                            final docId = tasks[index].id;
+                            final taskObject = TaskModel.fromMap(data, docId);
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailPageScreen(task: taskObject),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 15, right: 18),
+                                padding: EdgeInsets.only(
+                                  top: 12,
+                                  right: 25,
+                                  bottom: 10,
+                                  left: 25,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data['title'],
+                                          style: AppStyles.bodyStyle.copyWith(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          "${data['date']} | ${data['time']}",
+                                          style: AppStyles.headingStyle
+                                              .copyWith(
+                                                fontSize: 10,
+                                                color: Colors.black,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 24,
+                                      fontWeight: FontWeight.w900,
+                                      color: Color(0xFF0EA5E9),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return SizedBox();
+                    },
+                  ),
                 ),
               ),
             ],

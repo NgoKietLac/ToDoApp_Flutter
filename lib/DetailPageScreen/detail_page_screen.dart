@@ -1,15 +1,19 @@
+import 'package:app_todo_application/FirestoreService/firestore_service.dart';
+import 'package:app_todo_application/model/task_model.dart';
 import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailPageScreen extends StatefulWidget {
-  const DetailPageScreen({super.key});
+  const DetailPageScreen({super.key, required this.task});
+  final TaskModel task;
 
   @override
   State<DetailPageScreen> createState() => _DetailPageScreenState();
 }
 
 class _DetailPageScreenState extends State<DetailPageScreen> {
+  final FirestoreService _firestoreService = FirestoreService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +51,7 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                 SizedBox(height: 76),
                 Row(
                   children: [
-                    Text("team meeting", style: AppStyles.bodyStyle),
+                    Text(widget.task.title, style: AppStyles.bodyStyle),
                     SizedBox(width: 10),
                     Icon(Icons.edit_note, color: Colors.white),
                   ],
@@ -58,11 +62,11 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                     Icon(Icons.calendar_month, size: 12, color: Colors.white),
                     SizedBox(width: 5),
                     Text(
-                      "Today |",
+                      "${widget.task.date} |",
                       style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                     ),
                     Text(
-                      " 20:00 pm",
+                      widget.task.time,
                       style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                     ),
                   ],
@@ -71,7 +75,7 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                 Divider(color: Colors.white, thickness: 1),
                 SizedBox(height: 25),
                 Text(
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                  widget.task.description,
                   style: AppStyles.bodyStyle.copyWith(fontSize: 14),
                 ),
                 SizedBox(height: 58),
@@ -80,63 +84,135 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     // nút done
-                    Container(
-                      height: 71,
-                      width: 88,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF0D1F33).withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.white12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(
-                              0xFF22C55E,
-                            ).withValues(alpha: 0.1),
-                            blurRadius: 10,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.check_circle, color: Color(0xFF49EA80)),
-                          SizedBox(height: 5),
-                          Text(
-                            "Done",
-                            style: AppStyles.bodyStyle.copyWith(fontSize: 14),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () async {
+                        if (widget.task.id != null) {
+                          // Cập nhật trạng thái thành true trên Firebase
+                          await _firestoreService.updateTaskStatus(
+                            widget.task.id!,
+                            true,
+                          );
+
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  "Chúc mừng! Bạn đã hoàn thành công việc.",
+                                ),
+                              ),
+                            );
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
+                      child: Container(
+                        height: 71,
+                        width: 88,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF0D1F33).withValues(alpha: 0.5),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.white12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xFF22C55E).withValues(alpha: 0.1),
+                              blurRadius: 10,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.check_circle, color: Color(0xFF49EA80)),
+                            SizedBox(height: 5),
+                            Text(
+                              "Done",
+                              style: AppStyles.bodyStyle.copyWith(fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     // nút deleted
-                    Container(
-                      height: 71,
-                      width: 88,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF0D1F33).withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.white12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(
-                              0xFF22C55E,
-                            ).withValues(alpha: 0.1),
-                            blurRadius: 10,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.delete, color: Color(0xFFE76666)),
-                          SizedBox(height: 5),
-                          Text(
-                            "Delete",
-                            style: AppStyles.bodyStyle.copyWith(fontSize: 14),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        // HIỆN HỘP THOẠI XÁC NHẬN
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Color(0xFF0D1F33),
+                              title: Text(
+                                "Xác nhận xóa",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              content: Text(
+                                "Bạn có chắc chắn muốn xóa công việc này không?",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(
+                                    "Hủy",
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                    if (widget.task.id != null) {
+                                      await _firestoreService.deleteTask(
+                                        widget.task.id!,
+                                      );
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text("Đã xóa công việc!"),
+                                          ),
+                                        );
+                                        Navigator.pop(context);
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                    "Xóa",
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: 71,
+                        width: 88,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF0D1F33).withValues(alpha: 0.5),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.white12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xFF22C55E).withValues(alpha: 0.1),
+                              blurRadius: 10,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.delete, color: Color(0xFFE76666)),
+                            SizedBox(height: 5),
+                            Text(
+                              "Delete",
+                              style: AppStyles.bodyStyle.copyWith(fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     // nút pin
@@ -144,14 +220,12 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                       height: 71,
                       width: 88,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF0D1F33).withValues(alpha: 0.5),
+                        color: Color(0xFF0D1F33).withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(color: Colors.white12),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(
-                              0xFF22C55E,
-                            ).withValues(alpha: 0.1),
+                            color: Color(0xFF22C55E).withValues(alpha: 0.1),
                             blurRadius: 10,
                             spreadRadius: 2,
                           ),

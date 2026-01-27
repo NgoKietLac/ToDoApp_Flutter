@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 SizedBox(height: 15),
                 Padding(
-                  padding: const EdgeInsets.only(left: 0),
+                  padding: EdgeInsets.only(left: 0),
                   child: Text(
                     "Group tasks",
                     style: AppStyles.bodyStyle.copyWith(fontSize: 14),

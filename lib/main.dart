@@ -1,7 +1,14 @@
 import 'package:app_todo_application/SplashScreen/splash_screen.dart';
+import 'package:app_todo_application/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  // Đảm bảo các Widget của Flutter đã được khởi tạo xong
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Khởi tạo Firebase với "chìa khóa" kết nối
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
