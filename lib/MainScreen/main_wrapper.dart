@@ -1,3 +1,5 @@
+import 'package:app_todo_application/FirestoreService/firestore_service.dart';
+import 'package:app_todo_application/FirestoreService/service.dart';
 import 'package:app_todo_application/ListPageScreen/list_page_screen.dart';
 import 'package:app_todo_application/ListPageScreen/show_form_bottom_sheet.dart';
 import 'package:app_todo_application/MainScreen/main_Screen.dart';
@@ -15,6 +17,7 @@ class MainWrapper extends StatefulWidget {
 }
 
 class _MainWrapperState extends State<MainWrapper> {
+  IService _service = FirestoreService();
   int _selectedPageIndex = 0;
   static const List<Widget> _pages = <Widget>[
     MainScreen(),
@@ -32,7 +35,7 @@ class _MainWrapperState extends State<MainWrapper> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TaskCubit()..loadTasks(),
+      create: (context) => TaskCubit(_service)..loadTasks(),
       child: Scaffold(
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

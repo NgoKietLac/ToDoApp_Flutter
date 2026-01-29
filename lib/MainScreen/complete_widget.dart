@@ -24,7 +24,7 @@ class CompleteWidget extends StatelessWidget {
             if (completedTasks.isEmpty) {
               return Center(
                 child: Text(
-                  "Chưa có công việc hoàn thành",
+                  "Ko có công việc hoàn thành",
                   style: TextStyle(color: Colors.white70),
                 ),
               );

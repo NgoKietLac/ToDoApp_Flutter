@@ -1,8 +1,10 @@
 import 'package:app_todo_application/FirestoreService/firestore_service.dart';
+import 'package:app_todo_application/FirestoreService/service.dart';
+import 'package:app_todo_application/model/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void showAddTaskSheet(BuildContext context, {onSave}) {
+void showAddTaskSheet(BuildContext context, {TaskModel? task}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -11,25 +13,38 @@ void showAddTaskSheet(BuildContext context, {onSave}) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
     ),
     builder: (BuildContext context) {
-      return ShowFormBottomSheet();
+      return ShowFormBottomSheet(task: task);
     },
   );
 }
 
 class ShowFormBottomSheet extends StatefulWidget {
-  const ShowFormBottomSheet({super.key});
+  final TaskModel? task;
+  const ShowFormBottomSheet({super.key, required this.task});
 
   @override
   State<ShowFormBottomSheet> createState() => _ShowFormBottomSheetState();
 }
 
 class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
-  final FirestoreService _firestoreService = FirestoreService();
+  final IService _service = FirestoreService();
   final taskController = TextEditingController();
   final descController = TextEditingController();
   final dateController = TextEditingController();
   final timeController = TextEditingController();
   final formkey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.task != null) {
+      taskController.text = widget.task!.title;
+      descController.text = widget.task!.description;
+      dateController.text = widget.task!.date;
+      timeController.text = widget.task!.time;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -283,14 +298,24 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (formkey.currentState!.validate()) {
-                            _firestoreService.addtask(
-                              title: taskController.text,
-                              description: descController.text,
-                              date: dateController.text,
-                              time: timeController.text,
-                            );
+                            if (widget.task == null) {
+                              _service.addTask(
+                                title: taskController.text,
+                                description: descController.text,
+                                date: dateController.text,
+                                time: timeController.text,
+                              );
+                            } else {
+                              _service.updateTask(
+                                widget.task!.id,
+                                title: taskController.text,
+                                description: descController.text,
+                                date: dateController.text,
+                                time: timeController.text,
+                              );
+                            }
+                            Navigator.pop(context);
                           }
-                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF63D9F3),
@@ -300,7 +325,7 @@ class _ShowFormBottomSheetState extends State<ShowFormBottomSheet> {
                           ),
                         ),
                         child: Text(
-                          "create",
+                          widget.task == null ? "create" : "update",
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
