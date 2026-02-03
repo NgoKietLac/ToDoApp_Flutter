@@ -3,6 +3,7 @@ import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -146,16 +147,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   }),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_currentIndex < 3) {
                       controller.nextPage(
                         duration: Duration(milliseconds: 300),
                       );
                     } else {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignInScreen()),
-                      );
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setBool('isFirstTime', false);
+                      if (mounted) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ),
+                        );
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(

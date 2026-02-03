@@ -112,20 +112,19 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                         // nút done
                         GestureDetector(
                           onTap: () async {
-                            // Cập nhật trạng thái thành true trên Firebase
+                            // Đảo ngược trạng thái hiện tại: nếu đang true thì thành false, và ngược lại
+                            bool newStatus = !currentTask.isCompleted;
                             await _iService.updateTaskStatus(
-                              widget.task.id,
-                              true,
+                              currentTask.id,
+                              newStatus,
                             );
-
                             if (mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "Chúc mừng! Bạn đã hoàn thành công việc.",
-                                  ),
-                                ),
-                              );
+                              String message = newStatus
+                                  ? "Chúc mừng! Bạn đã hoàn thành công việc."
+                                  : "Đã chuyển trạng thái thành chưa hoàn thành.";
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text(message)));
                               Navigator.pop(context);
                             }
                           },
@@ -135,12 +134,13 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                             decoration: BoxDecoration(
                               color: Color(0xFF0D1F33).withValues(alpha: 0.5),
                               borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: Colors.white12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color(
-                                    0xFF22C55E,
-                                  ).withValues(alpha: 0.1),
+                                  color:
+                                      (currentTask.isCompleted
+                                              ? Colors.green
+                                              : Color(0xFF22C55E))
+                                          .withValues(alpha: 0.1),
                                   blurRadius: 10,
                                   spreadRadius: 2,
                                 ),
@@ -150,12 +150,16 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.check_circle,
-                                  color: Color(0xFF49EA80),
+                                  currentTask.isCompleted
+                                      ? Icons.cancel
+                                      : Icons.check_circle,
+                                  color: currentTask.isCompleted
+                                      ? Colors.orange
+                                      : Color(0xFF49EA80),
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Text(
-                                  "Done",
+                                  currentTask.isCompleted ? "Undone" : "Done",
                                   style: AppStyles.bodyStyle.copyWith(
                                     fontSize: 14,
                                   ),

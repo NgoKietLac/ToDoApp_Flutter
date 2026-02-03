@@ -1,6 +1,9 @@
 import 'package:app_todo_application/SignInScreen/sign_in_screen.dart';
+import 'package:app_todo_application/cubit/auth_cubit.dart';
+import 'package:app_todo_application/cubit/task_cubit.dart';
 import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SettingPageScreen extends StatefulWidget {
@@ -24,28 +27,14 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
             colors: <Color>[Color(0xFF1253AA), Color(0xFF05243E)],
           ),
         ),
-
         child: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                      onPressed: () {},
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          "Settings",
-                          style: AppStyles.headingStyle.copyWith(fontSize: 25),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 48),
-                  ],
+              SizedBox(height: 20),
+              Center(
+                child: Text(
+                  "Setting",
+                  style: AppStyles.headingStyle.copyWith(fontSize: 25),
                 ),
               ),
               SizedBox(height: 104),
@@ -128,6 +117,8 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
                 padding: const EdgeInsets.only(bottom: 50),
                 child: ElevatedButton(
                   onPressed: () {
+                    context.read<TaskCubit>().clearTasks();
+                    context.read<AuthCubit>().logout();
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => SignInScreen()),

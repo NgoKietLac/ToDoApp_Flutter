@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:app_todo_application/OnboardingScreen/onboarding_screen.dart';
+import 'package:app_todo_application/SignInScreen/sign_in_screen.dart';
 import 'package:app_todo_application/resources/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,11 +18,20 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 3), () {
-      if (mounted) {
+    Timer(Duration(seconds: 3), () async {
+      if (!mounted) return;
+      final prefs = await SharedPreferences.getInstance();
+      final isFirstTime = prefs.getBool('isFirstTime') ?? true;
+
+      if (isFirstTime) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => OnboardingScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SignInScreen()),
         );
       }
     });

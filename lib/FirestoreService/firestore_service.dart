@@ -1,32 +1,35 @@
 import 'package:app_todo_application/FirestoreService/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class FirestoreService implements IService {
-  final CollectionReference tasks = FirebaseFirestore.instance.collection(
-    'tasks',
-  );
-  //hàm lấy ds task
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Hàm bổ trợ để lấy đường dẫn đến subcollection tasks của user hiện tại
+  CollectionReference get _userTasks {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String? userId = user?.uid;
+
+    if (userId == null) {
+      throw Exception("User chưa đăng nhập");
+    }
+    // Lệnh in này sẽ xuất hiện ở terminal/console của VS Code
+    print("--- DEBUG AUTH ---");
+    print("Email hiện tại: ${user?.email}");
+    print("UID hiện tại: $userId");
+    print("------------------");
+
+    return _firestore.collection('users').doc(userId).collection('tasks');
+  }
+
   @override
   Stream<QuerySnapshot> getTasks() {
-    final String? userId = FirebaseAuth.instance.currentUser?.uid;
-    return tasks
-        .where('userId', isEqualTo: userId)
-        .orderBy('createdAt', descending: true)
-        .snapshots();
-  }
-
-  // hàm xoá
-  @override
-  Future<void> deleteTask(String docId) {
-    return tasks.doc(docId).delete();
-  }
-
-  // hàm update trạng thái
-  @override
-  Future<void> updateTaskStatus(String docId, bool status) {
-    return tasks.doc(docId).update({'isCompleted': status});
+    try {
+      // Truy vấn thẳng vào subcollection của user đó
+      return _userTasks.orderBy('createdAt', descending: true).snapshots();
+    } catch (e) {
+      return const Stream.empty();
+    }
   }
 
   @override
@@ -36,9 +39,7 @@ class FirestoreService implements IService {
     required String date,
     required String time,
   }) {
-    final String? userId = FirebaseAuth.instance.currentUser?.uid;
-    return tasks.add({
-      'userId': userId,
+    return _userTasks.add({
       'title': title,
       'description': description,
       'date': date,
@@ -49,6 +50,16 @@ class FirestoreService implements IService {
   }
 
   @override
+  Future<void> deleteTask(String docId) {
+    return _userTasks.doc(docId).delete();
+  }
+
+  @override
+  Future<void> updateTaskStatus(String docId, bool status) {
+    return _userTasks.doc(docId).update({'isCompleted': status});
+  }
+
+  @override
   Future<void> updateTask(
     String docId, {
     required String title,
@@ -56,7 +67,7 @@ class FirestoreService implements IService {
     required String date,
     required String time,
   }) {
-    return tasks.doc(docId).update({
+    return _userTasks.doc(docId).update({
       'title': title,
       'description': description,
       'date': date,

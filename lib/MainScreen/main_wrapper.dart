@@ -5,6 +5,8 @@ import 'package:app_todo_application/ListPageScreen/show_form_bottom_sheet.dart'
 import 'package:app_todo_application/MainScreen/main_Screen.dart';
 import 'package:app_todo_application/ManagerTime/manager_time_screen.dart';
 import 'package:app_todo_application/SettingPageScreen/setting_page_Screen.dart';
+import 'package:app_todo_application/cubit/auth_cubit.dart';
+import 'package:app_todo_application/cubit/auth_state.dart';
 import 'package:app_todo_application/cubit/task_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,9 +35,24 @@ class _MainWrapperState extends State<MainWrapper> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.read<AuthCubit>().state is Authenticated) {
+        context.read<TaskCubit>().loadTasks();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TaskCubit(_service)..loadTasks(),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is Authenticated) {
+          context.read<TaskCubit>().loadTasks();
+        }
+      },
       child: Scaffold(
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

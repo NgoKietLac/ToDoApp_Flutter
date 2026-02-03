@@ -22,7 +22,7 @@ class IncompleteWidget extends StatelessWidget {
             }).toList();
 
             if (incompleteTasks.isEmpty) {
-              return  Center(
+              return Center(
                 child: Text(
                   "Không có công việc chưa xong",
                   style: TextStyle(color: Colors.white70),
@@ -34,7 +34,6 @@ class IncompleteWidget extends StatelessWidget {
               shrinkWrap: true,
               itemCount: incompleteTasks.length,
               itemBuilder: (context, index) {
-                // Chuyển đổi dữ liệu sang TaskModel để dùng an toàn
                 final taskData =
                     incompleteTasks[index].data() as Map<String, dynamic>;
                 final task = TaskModel.fromMap(
@@ -52,8 +51,8 @@ class IncompleteWidget extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    margin:  EdgeInsets.only(bottom: 15, right: 18),
-                    padding:  EdgeInsets.only(
+                    margin: EdgeInsets.only(bottom: 15, right: 18),
+                    padding: EdgeInsets.only(
                       top: 12,
                       right: 25,
                       bottom: 10,
@@ -85,7 +84,7 @@ class IncompleteWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                         Icon(
+                        Icon(
                           Icons.arrow_forward_ios,
                           size: 24,
                           color: Color(0xFF0EA5E9),
@@ -97,9 +96,7 @@ class IncompleteWidget extends StatelessWidget {
               },
             );
           }
-          return  Center(
-            child: CircularProgressIndicator(color: Colors.white),
-          );
+          return Center(child: CircularProgressIndicator(color: Colors.white));
         },
       ),
     );
