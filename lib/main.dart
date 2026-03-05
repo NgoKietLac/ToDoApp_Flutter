@@ -1,7 +1,8 @@
-import 'package:app_todo_application/FirestoreService/firestore_service.dart';
-import 'package:app_todo_application/SplashScreen/splash_screen.dart';
-import 'package:app_todo_application/cubit/auth_cubit.dart';
-import 'package:app_todo_application/cubit/task_cubit.dart';
+import 'package:app_todo_application/module/data/repositories/firestore_service.dart';
+import 'package:app_todo_application/module/domain/usecases/add_task_usecase.dart';
+import 'package:app_todo_application/module/presentation/screens/splash_screen/splash_screen.dart';
+import 'package:app_todo_application/module/presentation/cubits/auth_cubit.dart';
+import 'package:app_todo_application/module/presentation/cubits/task_cubit.dart';
 import 'package:app_todo_application/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,15 @@ void main() async {
 
   // Khởi tạo Firebase với "chìa khóa" kết nối
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  final firestoreservice = FirestoreService();
+  final addTaskUsecase = AddTaskUsecase(firestoreservice);
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => TaskCubit(FirestoreService())..loadTasks(),
+          create: (context) =>
+              TaskCubit(addTaskUsecase, firestoreservice)..loadTasks(),
         ),
         BlocProvider(create: (context) => AuthCubit()),
       ],

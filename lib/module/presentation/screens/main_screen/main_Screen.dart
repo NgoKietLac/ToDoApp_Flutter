@@ -1,0 +1,178 @@
+import 'package:app_todo_application/module/presentation/screens/main_screen/Incomplete_widget.dart';
+import 'package:app_todo_application/module/presentation/screens/main_screen/avatar_stack.dart';
+import 'package:app_todo_application/module/presentation/screens/main_screen/complete_widget.dart';
+import 'package:app_todo_application/module/resources/app_styles.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  final User? user = FirebaseAuth.instance.currentUser;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBody: true,
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: AlignmentGeometry.topCenter,
+            end: AlignmentGeometry.bottomCenter,
+            colors: <Color>[Color(0xFF1253AA), Color(0xFF05243E)],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.only(top: 27, left: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset("assets/icon/appbarmain_icon.png"),
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                user?.displayName ?? "Chưa đặt tên",
+                                style: AppStyles.bodyStyle,
+                              ),
+                              Text(
+                                user?.email ?? "Chưa có email",
+                                style: AppStyles.bodyStyle.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.notifications_sharp,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Padding(
+                    padding: EdgeInsets.only(left: 0),
+                    child: Text(
+                      "Group tasks",
+                      style: AppStyles.bodyStyle.copyWith(fontSize: 14),
+                    ),
+                  ),
+                  CarouselSlider(
+                    items: [
+                      //item 1
+                      Container(
+                        margin: EdgeInsets.only(top: 16, right: 15, left: 0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 16, left: 23),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Design Meeting",
+                                style: AppStyles.bodyStyle.copyWith(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                "Tomorrow | 10:30pm",
+                                style: AppStyles.bodyStyle.copyWith(
+                                  fontSize: 10,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 9),
+                              AvatarStack(),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //item 2
+                      Container(
+                        margin: EdgeInsets.only(top: 16, right: 15, left: 0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 16, left: 23),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Projects Meeting",
+                                style: AppStyles.bodyStyle.copyWith(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                "Thursday | 10:30pm",
+                                style: AppStyles.bodyStyle.copyWith(
+                                  fontSize: 10,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 9),
+                              AvatarStack(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                    options: CarouselOptions(
+                      height: 160,
+                      viewportFraction: 0.6,
+                      padEnds: false,
+                      initialPage: 0,
+                      enableInfiniteScroll: false,
+                      scrollDirection: Axis.horizontal,
+                      disableCenter: true,
+                    ),
+                  ),
+                  SizedBox(height: 19),
+                  Text(
+                    "Incomplete Tasks",
+                    style: AppStyles.bodyStyle.copyWith(fontSize: 14),
+                  ),
+                  SizedBox(height: 17),
+                  IncompleteWidget(),
+                  SizedBox(height: 12),
+                  Text(
+                    "Completed Tasks",
+                    style: AppStyles.bodyStyle.copyWith(fontSize: 14),
+                  ),
+                  SizedBox(height: 16),
+                  CompleteWidget(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
