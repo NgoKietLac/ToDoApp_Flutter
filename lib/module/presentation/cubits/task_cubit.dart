@@ -10,24 +10,49 @@ import 'task_state.dart';
 class TaskCubit extends Cubit<TaskState> {
   final IService _service;
   List<TaskEntity> _allTasks = [];
+  bool isLoadingMore = false;
+  int _currentLimit = 10;
   StreamSubscription? _taskSubscription;
   final AddTaskUsecase _addTaskUsecase;
 
   TaskCubit(this._addTaskUsecase, this._service) : super(TaskInitial());
   //hàm load dữ liệu
   void loadTasks() {
-    _taskSubscription?.cancel();
+    _currentLimit = 10;
     emit(TaskLoading());
+    _listenToTasks();
+  }
 
-    _taskSubscription = _service.getTasks().listen((snapshot) {
+  // hàm hột trợ cho việc lấn nghe sự kiện
+  void _listenToTasks() {
+    _taskSubscription?.cancel();
+
+    _taskSubscription = _service.getTasks(limit: _currentLimit).listen((
+      snapshot,
+    ) {
       final List<TaskEntity> tasks = snapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         return TaskModel.fromMap(data, doc.id);
       }).toList();
 
-      _allTasks = tasks; // Lưu trữ dưới dạng Entity
+      _allTasks = tasks;
+      isLoadingMore = false;
       _emitLoadedState();
+
+      isLoadingMore = false;
     }, onError: (error) => emit(TaskError("Lỗi: $error")));
+  }
+
+  // Hàm gọi yêu cầu thêm item
+  Future<void> loadMoreTasks() async {
+    if (isLoadingMore) return;
+    if (_allTasks.length < _currentLimit) return;
+    isLoadingMore = true;
+    _emitLoadedState();
+    // await Future.delayed(Duration(seconds: 1));
+    _currentLimit += 10;
+    _listenToTasks();
+    print("ta lấy tiếp đấy");
   }
 
   // hàm xoá task

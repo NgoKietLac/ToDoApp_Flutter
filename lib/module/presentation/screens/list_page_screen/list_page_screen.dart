@@ -1,7 +1,4 @@
 import 'package:app_todo_application/module/presentation/screens/detail_page_screen/detail_page_screen.dart';
-import 'package:app_todo_application/module/data/repositories/firestore_service.dart';
-import 'package:app_todo_application/module/domain/repositories/service.dart';
-import 'package:app_todo_application/module/data/models/task_model.dart';
 import 'package:app_todo_application/module/presentation/cubits/task_cubit.dart';
 import 'package:app_todo_application/module/presentation/cubits/task_state.dart';
 import 'package:app_todo_application/module/resources/app_styles.dart';
@@ -17,12 +14,22 @@ class ListPageScreen extends StatefulWidget {
 }
 
 class _ListPageScreenState extends State<ListPageScreen> {
-  IService _service = FirestoreService();
+  // IService _service = FirestoreService();
   final searchController = TextEditingController();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      final taskCubit = context.read<TaskCubit>();
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent -200 &&
+          !taskCubit.isLoadingMore) {
+        print("Otext");
+        context.read<TaskCubit>().loadMoreTasks();
+      }
+    });
   }
 
   @override
@@ -46,137 +53,139 @@ class _ListPageScreenState extends State<ListPageScreen> {
           ),
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.only(top: 45, left: 18, right: 9, bottom: 5),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 42,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF1A2F4B),
-                            borderRadius: BorderRadius.circular(10),
+          child: Container(
+            margin: EdgeInsets.only(top: 45, left: 18, right: 9, bottom: 5),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF1A2F4B),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextFormField(
+                          onChanged: (value) {
+                            taskCubit.updateSearch(value);
+                          },
+                          controller: searchController,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            hintText: "Search by task title",
+                            hintStyle: AppStyles.bodyStyle.copyWith(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                            prefixIcon: Icon(Icons.search, color: Colors.grey),
+                            border: InputBorder.none, // Xóa gạch chân mặc định
+                            contentPadding: EdgeInsets.symmetric(vertical: 10),
                           ),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              taskCubit.updateSearch(value);
-                            },
-                            controller: searchController,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              hintText: "Search by task title",
-                              hintStyle: AppStyles.bodyStyle.copyWith(
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    PopupMenuButton<String>(
+                      onSelected: (String value) {
+                        taskCubit.updateSort(value);
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem(value: 'Newest', child: Text("Mới nhất")),
+                        PopupMenuItem(value: 'Alpha', child: Text("Tên (A-Z)")),
+                      ],
+                      child: Container(
+                        height: 42,
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF1A2F4B),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.sort, color: Colors.grey, size: 20),
+                            SizedBox(width: 8),
+                            Text(
+                              "Sort By:",
+                              style: AppStyles.bodyStyle.copyWith(
                                 fontSize: 14,
                                 color: Colors.grey,
                               ),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                              ),
-                              border:
-                                  InputBorder.none, // Xóa gạch chân mặc định
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10,
-                              ),
                             ),
-                          ),
+                            Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+                          ],
                         ),
                       ),
-                      SizedBox(width: 8),
-                      PopupMenuButton<String>(
-                        onSelected: (String value) {
-                          taskCubit.updateSort(value);
-                        },
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: 'Newest',
-                            child: Text("Mới nhất"),
-                          ),
-                          PopupMenuItem(
-                            value: 'Alpha',
-                            child: Text("Tên (A-Z)"),
-                          ),
-                        ],
-                        child: Container(
-                          height: 42,
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: Color(0xFF1A2F4B),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.sort, color: Colors.grey, size: 20),
-                              SizedBox(width: 8),
-                              Text(
-                                "Sort By:",
-                                style: AppStyles.bodyStyle.copyWith(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Colors.grey,
-                              ),
-                            ],
-                          ),
-                        ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 46),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "Tasks List",
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 46),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        "Tasks List",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  SizedBox(
-                    height: 490,
-                    child: BlocBuilder<TaskCubit, TaskState>(
-                      builder: (context, state) {
-                        if (state is TaskLoading) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          );
-                        }
-                        if (state is TaskError) {
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 490,
+                  child: BlocBuilder<TaskCubit, TaskState>(
+                    builder: (context, state) {
+                      if (state is TaskLoading) {
+                        return Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        );
+                      }
+                      if (state is TaskError) {
+                        return Center(
+                          child: Text(
+                            state.message,
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        );
+                      }
+                      if (state is TaskLoaded) {
+                        final tasks = state.filteredTasks;
+
+                        if (tasks.isEmpty) {
                           return Center(
                             child: Text(
-                              state.message,
-                              style: TextStyle(color: Colors.red),
+                              "Không có công việc phù hợp",
+                              style: AppStyles.bodyStyle,
                             ),
                           );
                         }
-                        if (state is TaskLoaded) {
-                          final tasks = state.filteredTasks;
-
-                          if (tasks.isEmpty) {
-                            return Center(
-                              child: Text(
-                                "Không có công việc phù hợp",
-                                style: AppStyles.bodyStyle,
-                              ),
-                            );
-                          }
-                          return ListView.builder(
-                            itemCount: tasks.length,
+                        return RefreshIndicator(
+                          color: Colors.white,
+                          backgroundColor: Colors.white30,
+                          onRefresh: () async {
+                            context.read<TaskCubit>().loadTasks();
+                            await Future.delayed(Duration(milliseconds: 1000));
+                          },
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount:
+                                tasks.length +
+                                (taskCubit.isLoadingMore ? 1 : 0),
                             itemBuilder: (context, index) {
+                              if (index == tasks.length) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                              }
                               final task = tasks[index];
 
                               return InkWell(
@@ -203,6 +212,13 @@ class _ListPageScreenState extends State<ListPageScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(12),
+
+                                    border: task.isPin
+                                        ? Border.all(
+                                            color: Colors.yellow.shade400,
+                                            width: 2.5,
+                                          )
+                                        : null,
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
@@ -256,14 +272,14 @@ class _ListPageScreenState extends State<ListPageScreen> {
                                 ),
                               );
                             },
-                          );
-                        }
-                        return SizedBox();
-                      },
-                    ),
+                          ),
+                        );
+                      }
+                      return SizedBox();
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

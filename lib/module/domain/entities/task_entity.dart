@@ -6,6 +6,7 @@ class TaskEntity {
   final String time;
   final bool isCompleted;
   final DateTime createdAt;
+  final bool isPin;
 
   TaskEntity({
     required this.id,
@@ -15,5 +16,6 @@ class TaskEntity {
     required this.time,
     required this.isCompleted,
     required this.createdAt,
+    required this.isPin,
   });
 }

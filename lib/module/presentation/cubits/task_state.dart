@@ -19,7 +19,7 @@ class TaskLoaded extends TaskState {
   TaskLoaded({
     required this.tasks,
     this.searchQuery = '',
-    this.sortType = 'Newest', 
+    this.sortType = 'Newest',
     this.isActionSuccess = false,
   });
   List<TaskEntity> get filteredTasks {
@@ -27,11 +27,16 @@ class TaskLoaded extends TaskState {
     List<TaskEntity> list = tasks.where((doc) {
       return doc.title.toLowerCase().contains(searchQuery.toLowerCase());
     }).toList();
-    // 2. Sắp xếp theo SortType
+
+    // 2. Sắp xếp theo SortType 
     if (sortType == 'Alpha') {
       list.sort((a, b) => a.title.compareTo(b.title));
     }
-    return list;
+
+    // 3. TÁCH DANH SÁCH: Pin và Không Pin
+    List<TaskEntity> pinnedTasks = list.where((task) => task.isPin).toList();
+    List<TaskEntity> unpinnedTasks = list.where((task) => !task.isPin).toList();
+    return [...pinnedTasks, ...unpinnedTasks];
   }
 
   TaskLoaded copyWith({

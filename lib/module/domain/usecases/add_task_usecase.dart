@@ -19,7 +19,8 @@ class AddTaskUsecase {
       date: date,
       time: time,
       isCompleted: false,
-      createdAt: DateTime.now()
+      createdAt: DateTime.now(),
+      isPin: false,
     );
     return repository.addTask(newTask);
   }

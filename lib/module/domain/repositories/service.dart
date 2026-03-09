@@ -4,11 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract class IService {
   Future<void> addTask(TaskEntity task);
 
-  Stream<QuerySnapshot> getTasks();
+  Stream<QuerySnapshot> getTasks({int limit = 10});
 
   Future<void> deleteTask(String docId);
 
   Future<void> updateTaskStatus(String docId, bool status);
+  Future<void> updateTaskPin(String docId, bool isPin);
   Future<void> updateTask(
     String docID, {
     required String title,

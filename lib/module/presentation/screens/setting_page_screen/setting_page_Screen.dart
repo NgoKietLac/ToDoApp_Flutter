@@ -1,10 +1,11 @@
+import 'package:app_todo_application/module/presentation/screens/setting_page_screen/detail_profile_screen.dart';
+import 'package:app_todo_application/module/presentation/screens/setting_page_screen/item_setting_widget.dart';
 import 'package:app_todo_application/module/presentation/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:app_todo_application/module/presentation/cubits/auth_cubit.dart';
 import 'package:app_todo_application/module/presentation/cubits/task_cubit.dart';
 import 'package:app_todo_application/module/resources/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SettingPageScreen extends StatefulWidget {
   const SettingPageScreen({super.key});
@@ -41,74 +42,45 @@ class _SettingPageScreenState extends State<SettingPageScreen> {
               //thẻ profile
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(Icons.person, color: Colors.white, size: 28),
-                    SizedBox(width: 15),
-                    Text("Profile", style: AppStyles.bodyStyle),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Color(0xFF63D9F3),
-                      size: 18,
-                    ),
-                  ],
+                child: ItemSettingWidget(
+                  icon: Icons.person,
+                  title: "Profile",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailProfileScreen(),
+                      ),
+                    );
+                  },
                 ),
               ),
               Divider(color: Colors.white24, indent: 25, endIndent: 25),
               //thẻ conver
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.chat_bubble,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                    SizedBox(width: 15),
-                    Text("Conversations", style: AppStyles.bodyStyle),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Color(0xFF63D9F3),
-                      size: 18,
-                    ),
-                  ],
+                child: ItemSettingWidget(
+                  icon: Icons.chat_bubble,
+                  title: "Converstations",
+                  onTap: () {},
                 ),
               ),
               Divider(color: Colors.white24, indent: 25, endIndent: 25),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(Icons.lightbulb, color: Colors.white, size: 28),
-                    SizedBox(width: 15),
-                    Text("Projects", style: AppStyles.bodyStyle),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Color(0xFF63D9F3),
-                      size: 18,
-                    ),
-                  ],
+                child: ItemSettingWidget(
+                  icon: Icons.lightbulb,
+                  title: "Projects",
+                  onTap: () {},
                 ),
               ),
               Divider(color: Colors.white24, indent: 25, endIndent: 25),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                child: Row(
-                  children: [
-                    Icon(Icons.find_in_page, color: Colors.white, size: 28),
-                    SizedBox(width: 15),
-                    Text("Terms and Policies", style: AppStyles.bodyStyle),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Color(0xFF63D9F3),
-                      size: 18,
-                    ),
-                  ],
+                child: ItemSettingWidget(
+                  icon: Icons.find_in_page,
+                  title: "Terms and Policies",
+                  onTap: () {},
                 ),
               ),
               Divider(color: Colors.white24, indent: 25, endIndent: 25),

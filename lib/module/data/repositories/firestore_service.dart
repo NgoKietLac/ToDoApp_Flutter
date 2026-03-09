@@ -25,10 +25,13 @@ class FirestoreService implements IService {
   }
 
   @override
-  Stream<QuerySnapshot> getTasks() {
+  Stream<QuerySnapshot> getTasks({int limit = 10}) {
     try {
       // Truy vấn thẳng vào subcollection của user đó
-      return _userTasks.orderBy('createdAt', descending: true).snapshots();
+      return _userTasks
+          .orderBy('createdAt', descending: true)
+          .limit(limit)
+          .snapshots();
     } catch (e) {
       return const Stream.empty();
     }
@@ -70,7 +73,13 @@ class FirestoreService implements IService {
       time: task.time,
       isCompleted: task.isCompleted,
       createdAt: task.createdAt,
+      isPin: task.isPin,
     );
     return _userTasks.doc(taskModel.id).set(taskModel.toMap());
+  }
+
+  @override
+  Future<void> updateTaskPin(String docId, bool isPin) {
+    return _userTasks.doc(docId).update({'isPin': isPin});
   }
 }

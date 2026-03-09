@@ -194,7 +194,7 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                                       onPressed: () async {
                                         Navigator.pop(context);
                                         await _iService.deleteTask(
-                                          widget.task.id,
+                                          currentTask.id,
                                         );
                                         if (mounted) {
                                           ScaffoldMessenger.of(
@@ -254,33 +254,63 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                           ),
                         ),
                         // nút pin
-                        Container(
-                          height: 71,
-                          width: 88,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF0D1F33).withValues(alpha: 0.5),
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: Colors.white12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0xFF22C55E).withValues(alpha: 0.1),
-                                blurRadius: 10,
-                                spreadRadius: 2,
+                        GestureDetector(
+                          onTap: () async {
+                            bool newPinStatus = !currentTask.isPin;
+                            await _iService.updateTaskPin(
+                              currentTask.id,
+                              newPinStatus,
+                            );
+                            if (mounted) {
+                              String message = newPinStatus
+                                  ? "Đã ghim công việc lên đầu danh sách."
+                                  : "Đã bỏ ghim công việc.";
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text(message)));
+                            }
+                          },
+                          child: Container(
+                            height: 71,
+                            width: 88,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF0D1F33).withValues(alpha: 0.5),
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                // Đổi viền sáng lên nếu đang được ghim
+                                color: currentTask.isPin
+                                    ? Colors.yellow
+                                    : Colors.white12,
+                                width: currentTask.isPin ? 2 : 1,
                               ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.push_pin, color: Colors.yellow),
-                              SizedBox(height: 5),
-                              Text(
-                                "Pin",
-                                style: AppStyles.bodyStyle.copyWith(
-                                  fontSize: 14,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(
+                                    0xFF22C55E,
+                                  ).withValues(alpha: 0.1),
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  currentTask.isPin
+                                      ? Icons.push_pin
+                                      : Icons.push_pin_outlined,
+                                  color: Colors.yellow,
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  currentTask.isPin ? "Unpin" : "Pin",
+                                  style: AppStyles.bodyStyle.copyWith(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -10,6 +10,7 @@ class TaskModel extends TaskEntity {
     required super.time,
     required super.isCompleted,
     required super.createdAt,
+    required super.isPin,
   });
 
   factory TaskModel.fromMap(Map<String, dynamic> map, String docId) {
@@ -23,6 +24,7 @@ class TaskModel extends TaskEntity {
       createdAt: map['createdAt'] != null
           ? (map['createdAt'] as Timestamp).toDate()
           : DateTime.now(),
+      isPin: map['isPin'] ?? false,
     );
   }
 
@@ -34,6 +36,7 @@ class TaskModel extends TaskEntity {
       'time': time,
       'isCompleted': isCompleted,
       'createdAt': Timestamp.fromDate(createdAt),
+      'isPin': isPin,
     };
   }
 }
