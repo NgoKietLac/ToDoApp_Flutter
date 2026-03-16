@@ -25,13 +25,18 @@ class FirestoreService implements IService {
   }
 
   @override
-  Stream<QuerySnapshot> getTasks({int limit = 10}) {
+  Stream<List<TaskEntity>> getTasks({int limit = 10}) {
     try {
-      // Truy vấn thẳng vào subcollection của user đó
       return _userTasks
           .orderBy('createdAt', descending: true)
           .limit(limit)
-          .snapshots();
+          .snapshots()
+          .map((snapshot) {
+            return snapshot.docs.map((doc) {
+              final data = doc.data() as Map<String, dynamic>;
+              return TaskModel.fromMap(data, doc.id);
+            }).toList();
+          });
     } catch (e) {
       return const Stream.empty();
     }

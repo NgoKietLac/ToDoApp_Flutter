@@ -28,13 +28,8 @@ class TaskCubit extends Cubit<TaskState> {
     _taskSubscription?.cancel();
 
     _taskSubscription = _service.getTasks(limit: _currentLimit).listen((
-      snapshot,
+      List<TaskEntity> tasks,
     ) {
-      final List<TaskEntity> tasks = snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return TaskModel.fromMap(data, doc.id);
-      }).toList();
-
       _allTasks = tasks;
       isLoadingMore = false;
       _emitLoadedState();

@@ -14,28 +14,36 @@ class TaskModel extends TaskEntity {
   });
 
   factory TaskModel.fromMap(Map<String, dynamic> map, String docId) {
+    DateTime parsedDate;
+    if (map['createdAt'] is Timestamp) {
+      parsedDate = (map['createdAt'] as Timestamp).toDate();
+    } else if (map['createdAt'] is String) {
+      parsedDate = DateTime.tryParse(map['createdAt']) ?? DateTime.now();
+    } else {
+      parsedDate = DateTime.now();
+    }
+
     return TaskModel(
-      id: docId,
+      id: map['id'] ?? docId,
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       date: map['date'] ?? '',
       time: map['time'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
-      createdAt: map['createdAt'] != null
-          ? (map['createdAt'] as Timestamp).toDate()
-          : DateTime.now(),
+      createdAt: parsedDate,
       isPin: map['isPin'] ?? false,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'title': title,
       'description': description,
       'date': date,
       'time': time,
       'isCompleted': isCompleted,
-      'createdAt': Timestamp.fromDate(createdAt),
+      'createdAt': createdAt.toIso8601String(),
       'isPin': isPin,
     };
   }

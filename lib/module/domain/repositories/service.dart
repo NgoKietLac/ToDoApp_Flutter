@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract class IService {
   Future<void> addTask(TaskEntity task);
 
-  Stream<QuerySnapshot> getTasks({int limit = 10});
+  Stream<List<TaskEntity>> getTasks({int limit = 10});
 
   Future<void> deleteTask(String docId);
 
