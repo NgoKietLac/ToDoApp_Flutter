@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'package:app_todo_application/module/presentation/screens/detail_page_screen/detail_page_screen.dart';
 import 'package:app_todo_application/module/presentation/cubits/task_cubit.dart';
 import 'package:app_todo_application/module/presentation/cubits/task_state.dart';
 import 'package:app_todo_application/module/resources/app_styles.dart';
+import 'package:app_todo_application/utils/debounce.dart';
+import 'package:app_todo_application/utils/throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,24 +20,41 @@ class _ListPageScreenState extends State<ListPageScreen> {
   // IService _service = FirestoreService();
   final searchController = TextEditingController();
   final _scrollController = ScrollController();
+  final debounce = Debounce(delay: Duration(milliseconds: 500));
+  final throttle = Throttle(delay: Duration(milliseconds: 1000));
+  // bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      final taskCubit = context.read<TaskCubit>();
-      if (_scrollController.position.pixels >=
-              _scrollController.position.maxScrollExtent -200 &&
-          !taskCubit.isLoadingMore) {
-        print("Otext");
-        context.read<TaskCubit>().loadMoreTasks();
-      }
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final taskCubit = context.read<TaskCubit>();
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
+        !taskCubit.isLoadingMore) {
+      throttle.trigger(() {
+        print("loadmore");
+        taskCubit.loadMoreTasks();
+      });
+    }
+  }
+
+  void _onSearchChanged(String value) {
+    final taskCubit = context.read<TaskCubit>();
+    debounce.run(() {
+      taskCubit.updateSearch(value);
     });
   }
 
+  // Future delay
   @override
   void dispose() {
     searchController.dispose();
+    debounce.dispose();
+    throttle.dispose();
     super.dispose();
   }
 
@@ -68,9 +88,7 @@ class _ListPageScreenState extends State<ListPageScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: TextFormField(
-                          onChanged: (value) {
-                            taskCubit.updateSearch(value);
-                          },
+                          onChanged: _onSearchChanged,
                           controller: searchController,
                           style: TextStyle(color: Colors.white),
                           decoration: InputDecoration(
