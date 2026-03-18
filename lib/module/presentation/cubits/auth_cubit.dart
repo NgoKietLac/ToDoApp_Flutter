@@ -39,6 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
         name: name,
         otpCode: otpcode,
       );
+      await _authService.sendOTPEmail(email, otpcode);
       emit(Unauthenticated());
     } catch (e) {
       emit(AuthError(e.toString()));
@@ -79,5 +80,18 @@ class AuthCubit extends Cubit<AuthState> {
     await _authService.signOut("", "", "");
     pendingEmail = null; // Xóa email tạm
     emit(Unauthenticated());
+  }
+
+  // hàm quên mật khẩu
+  void resetPassword(String email) async {
+    emit(AuthLoading());
+    try {
+      await _authService.resetPassword(email);
+      emit(
+        AuthMessage("Đã gửi link đặt lại mật khẩu! Vui lòng kiểm tra email."),
+      );
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
   }
 }

@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -67,5 +70,45 @@ class AuthService {
   // hàm Xóa dữ liệu tạm sau khi hoàn tất
   Future<void> deletePendingData(String email) async {
     await _pendingUsers.doc(email).delete();
+  }
+
+  // hàm quên mật khẩu
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw e.message ?? "Lỗi không xác định khi gửi email đặt lại mật khẩu";
+    }
+  }
+
+  Future<void> sendOTPEmail(String toEmail, String otpCode) async {
+    // 1. Điền email của BẠN vào đây
+    String username = 'damtutai147@gmail.com';
+
+    // 2. Điền MÃ 16 CHỮ CÁI bạn vừa tạo (viết liền không dấu cách)
+    String password = dotenv.env['GMAIL_PASS'] ?? "";
+
+    final smtpServer = gmail(username, password);
+
+    final message = Message()
+      ..from = Address(username, 'DO IT App')
+      ..recipients.add(toEmail)
+      ..subject = 'Mã xác nhận tài khoản DO IT'
+      ..html =
+          """
+        <h3>Xin chào!</h3>
+        <p>Cảm ơn bạn đã đăng ký ứng dụng DO IT.</p>
+        <p>Mã xác nhận (OTP) của bạn là: <b style="font-size: 20px; color: #0EA5E9;">$otpCode</b></p>
+        <p>Vui lòng không chia sẻ mã này cho bất kỳ ai.</p>
+      """;
+
+    try {
+      await send(message, smtpServer);
+      print('Đã gửi OTP thành công đến $toEmail');
+    } catch (e) {
+      print('Lỗi khi gửi mail: $e');
+      // Tùy chọn: ném lỗi ra ngoài nếu muốn báo cho người dùng
+      // throw Exception("Không thể gửi email xác thực.");
+    }
   }
 }

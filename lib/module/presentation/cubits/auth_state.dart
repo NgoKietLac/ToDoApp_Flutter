@@ -20,5 +20,11 @@ class AuthError extends AuthState {
   AuthError(this.errorMessage);
 }
 
-// 6. Trạng thái đã đăng xuất
+// trạng thái hiển thị thông báo thành công
+class AuthMessage extends AuthState {
+  final String message;
+  AuthMessage(this.message);
+}
+
+// 6. trạng thái đã đăng xuất
 class Unauthenticated extends AuthState {}

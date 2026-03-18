@@ -17,6 +17,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final resetEmailController = TextEditingController();
   final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 SnackBar(
                   content: Text(state.errorMessage),
                   backgroundColor: Colors.blue,
+                ),
+              );
+            }
+            // thông báo gửi yêu cầu tới email thành công
+            if (state is AuthMessage) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.green,
                 ),
               );
             }
@@ -159,7 +169,88 @@ class _SignInScreenState extends State<SignInScreen> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      backgroundColor: Color(0xFF0D1F33),
+                                      title: Text(
+                                        "Quên Mật Khẩu",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      content: TextField(
+                                        controller: resetEmailController,
+                                        style: TextStyle(color: Colors.white),
+                                        decoration: InputDecoration(
+                                          hintText: "Nhập Email của bạn",
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0xFF63D9F3),
+                                            ),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0xFF63D9F3),
+                                              width: 2.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            "Hủy",
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            final email = resetEmailController
+                                                .text
+                                                .trim();
+                                            if (email.isNotEmpty) {
+                                              _authCubit.resetPassword(email);
+                                              Navigator.pop(context);
+                                              resetEmailController.clear();
+                                            } else {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  backgroundColor: Colors.white,
+                                                  content: Text(
+                                                    "Vui Lòng Nhập Email Của Bạn !",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Text(
+                                            "Gửi",
+                                            style: TextStyle(
+                                              color: Color(0xFF63D9F3),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
                               child: Text(
                                 "forget password",
                                 style: AppStyles.bodyStyle.copyWith(

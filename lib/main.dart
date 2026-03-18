@@ -9,15 +9,16 @@ import 'package:app_todo_application/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum DataSource { firebase, mockoon }
 
-const DataSource currentDataSource = DataSource.mockoon;
+const DataSource currentDataSource = DataSource.firebase;
 
 void main() async {
   // Đảm bảo các Widget của Flutter đã được khởi tạo xong
   WidgetsFlutterBinding.ensureInitialized();
-
+  await dotenv.load(fileName: ".env");
   // Khởi tạo Firebase với "chìa khóa" kết nối
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   late IService dataService;
